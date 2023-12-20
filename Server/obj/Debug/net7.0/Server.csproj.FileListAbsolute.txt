@@ -41,3 +41,11 @@ C:\Users\zanna\Documents\GIT\E-Commerce\server\bin\Debug\net7.0\Mono.TextTemplat
 C:\Users\zanna\Documents\GIT\E-Commerce\server\bin\Debug\net7.0\MySqlConnector.dll
 C:\Users\zanna\Documents\GIT\E-Commerce\server\bin\Debug\net7.0\Pomelo.EntityFrameworkCore.MySql.dll
 C:\Users\zanna\Documents\GIT\E-Commerce\server\bin\Debug\net7.0\System.CodeDom.dll
+C:\Users\zanna\Documents\GIT\E-Commerce\server\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\zanna\Documents\GIT\E-Commerce\server\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\zanna\Documents\GIT\E-Commerce\server\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\zanna\Documents\GIT\E-Commerce\server\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\zanna\Documents\GIT\E-Commerce\server\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\zanna\Documents\GIT\E-Commerce\server\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\zanna\Documents\GIT\E-Commerce\server\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\zanna\Documents\GIT\E-Commerce\server\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
