@@ -1,10 +1,9 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.IdentityModel.Tokens;
 using Server.Entities;
 using Server.Interfaces;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-
 
 namespace Server.Services
 {
@@ -20,7 +19,7 @@ namespace Server.Services
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId, user.UserName)
+                new(JwtRegisteredClaimNames.NameId, user.Username)
             };
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
@@ -38,6 +37,5 @@ namespace Server.Services
 
             return tokenHandler.WriteToken(token);
         }
-
     }
 }

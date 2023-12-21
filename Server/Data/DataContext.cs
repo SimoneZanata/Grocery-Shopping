@@ -9,6 +9,7 @@ namespace Server.Data
         {
         }
 
-        public DbSet <User> Users{ get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Item> Items { get; set; }
     }
 }
