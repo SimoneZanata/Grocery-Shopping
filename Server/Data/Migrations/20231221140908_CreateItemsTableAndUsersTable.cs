@@ -42,7 +42,7 @@ namespace Server.Data.Migrations
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<double>(type: "double", nullable: false),
                     Purchased = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -51,7 +51,8 @@ namespace Server.Data.Migrations
                         name: "FK_Items_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 

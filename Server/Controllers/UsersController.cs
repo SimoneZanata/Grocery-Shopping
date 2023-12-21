@@ -1,92 +1,57 @@
-using System.Security.Cryptography;
-using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 using Server.Data;
 using Server.DTOs;
 using Server.Entities;
-using Server.Interfaces;
 
 namespace Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]
 
-    
+
     public class UsersController : ControllerBase
     {
         private readonly DataContext _context;
-        private readonly ITokenService _tokenService;
 
-        public UsersController(DataContext context, ITokenService tokenService)
+        public UsersController(DataContext context)
         {
-            _tokenService = tokenService;
+
             _context = context;
         }
 
 
-        [HttpPost("register")]
-        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
+
+
+        [HttpGet("{userId}/items")]
+        public async Task<ActionResult<IEnumerable<Item>>> GetItemsForUser(int userId)
         {
-            if (await UserExists(registerDto.Username)) return BadRequest("Username is taken");
-
-            using var hmac = new HMACSHA512();
-
-            var user = new User
-            {
-                Username = registerDto.Username.ToLower(),
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-                PasswordSalt = hmac.Key
-            };
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            return new UserDto
-            {
-                Username = user.Username,
-                Token = _tokenService.CreateToken(user)
-            };
-        }
-
-        [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
-        {
-            var user = await _context.Users.SingleOrDefaultAsync(x =>
-                x.Username == loginDto.Username);
+            var user = await _context.Users
+                .Include(u => u.Items)
+                .FirstOrDefaultAsync(u => u.Id == userId);
 
             if (user == null)
             {
-                return Unauthorized("invalid username");
+                return NotFound("User not found");
             }
 
-            using var hmac = new HMACSHA512(user.PasswordSalt);
-
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
-
-            for (int i = 0; i < computedHash.Length; i++)
+            var itemDtos = user.Items.Select(item => new ItemDto
             {
-                if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("invalid password");
-            }
+                Id = item.Id,
+                Name = item.Name,
+                Quantity = item.Quantity,
+                Price = item.Price,
+                Purchased = item.Purchased
 
-            return new UserDto
-            {
-                Username = user.Username,
-                Token = _tokenService.CreateToken(user)
-            };
+            });
+
+            return Ok(itemDtos);
+
         }
 
-
-
-        private async Task<bool> UserExists(string username)
-        {
-            return await _context.Users.AnyAsync(x => x.Username == username.ToLower());
-        }
-
-/*
-        [HttpPost("{userId}/add-item")]
-        public async Task<ActionResult<UserDto>> AddItemToUser(int userId, ItemDto addItemDto)
+        [HttpPost("{userId}/items/")]
+        public async Task<ActionResult<UserDto>> AddItemToUser(int userId, Item addItem)
         {
             // Verifica se l'utente esiste
             var user = await _context.Users.FindAsync(userId);
@@ -95,26 +60,65 @@ namespace Server.Controllers
                 return NotFound("User not found");
             }
 
+            // Check if an item with the same name already exists in the user's list
+            if (user.Items.Any(item => item.Name == addItem.Name))
+            {
+                return BadRequest("Item with the same name already exists for the user");
+            }
+
             // Crea il nuovo elemento
             var newItem = new Item
             {
-                Name = addItemDto.Name,
-                Quantity = addItemDto.Quantity,
-                Price = addItemDto.Price,
-                Purchased = true
+                Name = addItem.Name,
+                Quantity = addItem.Quantity,
+                Price = addItem.Price,
+                Purchased = false,
+                UserId = user.Id
             };
 
             // Aggiungi l'elemento alla lista dell'utente
             user.Items.Add(newItem);
+
             // Salva le modifiche nel database
             await _context.SaveChangesAsync();
+
             return Ok();
         }
 
-        [HttpDelete("{userId}/delete-item/{itemId}")]
+        [HttpPut("{userId}/items/{itemId}")]
+        public async Task<ActionResult> UpdateItemForUser(int userId, int itemId, Item updatedItem)
+        {
+            var user = await _context.Users
+                .Include(u => u.Items)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var itemToUpdate = user.Items.FirstOrDefault(i => i.Id == itemId);
+
+            if (itemToUpdate == null)
+            {
+                return NotFound("Item not found");
+            }
+
+            // Update item properties
+            itemToUpdate.Name = updatedItem.Name;
+            itemToUpdate.Quantity = updatedItem.Quantity;
+            itemToUpdate.Price = updatedItem.Price;
+            itemToUpdate.Purchased = updatedItem.Purchased;
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpDelete("{userId}/items/{itemId}")]
         public async Task<ActionResult> DeleteItemFromUser(int userId, int itemId)
         {
-            // Trova l'utente
             var user = await _context.Users.
             Include(u => u.Items).
             FirstOrDefaultAsync(u => u.Id == userId);
@@ -123,7 +127,6 @@ namespace Server.Controllers
                 return NotFound("User not found");
             }
 
-            // Trova l'elemento da eliminare nella lista dell'utente
             var itemToDelete = user.Items.FirstOrDefault(i => i.Id == itemId);
 
             if (itemToDelete == null)
@@ -139,7 +142,6 @@ namespace Server.Controllers
             return Ok();
 
         }
-    */
     }
 }
 

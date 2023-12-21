@@ -9,5 +9,7 @@ namespace Server.Entities
         public int Quantity { get; set; }
         public double Price { get; set; }
         public bool Purchased { get; set; }
+        public int UserId { get; set; } 
+        public User User { get; set; }
     }
 }
