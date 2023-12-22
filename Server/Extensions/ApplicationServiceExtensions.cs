@@ -16,7 +16,6 @@ namespace Server.Extensions
             });
             services.AddCors();
             services.AddScoped<ITokenService, TokenService>();
-
             return services;
         }
     }

@@ -24,10 +24,12 @@ export class LoginComponent {
       this.authService.login(form.value).subscribe({
         next: (response) => {
           localStorage.setItem("user", JSON.stringify(response));
-          console.log(localStorage.getItem("user"));
+          console.log(localStorage.getItem("user"));          
           this.router.navigateByUrl("/welcome");
+          setTimeout(() => {
+            alert("Accesso effettuato");
+          }, 200);
         },
-        error: () => alert("Login Errato"),
       });
     }
   }

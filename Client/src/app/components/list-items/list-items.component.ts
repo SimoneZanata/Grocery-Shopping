@@ -38,12 +38,12 @@ export class ListItemsComponent {
     this.router.navigateByUrl(`/edit/${itemId}`);
   }
 
-  onCheckboxChange(item :Item) {
+  onCheckboxChange(item: Item) {
     this.item.purchased = !this.item.purchased;
-    if (this.item.purchased) {
-      this.userService.editItemForUser(this.userId,item.id,this.item).subscribe({
+    if (this.item.purchased || !this.item.purchased) {
+      this.userService.editItemForUser(this.userId, item.id, item).subscribe({
         next: (response) => {
-          response=item;
+          response = this.item;
           console.log(item);
         },
         error: (error) => {

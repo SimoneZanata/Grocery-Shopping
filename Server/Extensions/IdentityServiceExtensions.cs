@@ -22,7 +22,6 @@ namespace Server.Extensions
                         ValidateAudience = false
                     };
                 });
-
             return services;
         }
     }

@@ -14,6 +14,7 @@ import { MainPageComponent } from './components/main-page/main-page.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { JwtAuthInterceptor } from './interceptors/jwt-auth.interceptor';
+import { ErrorsInterceptor } from './interceptors/errors.interceptor';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { JwtAuthInterceptor } from './interceptors/jwt-auth.interceptor';
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtAuthInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorsInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })
