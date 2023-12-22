@@ -20,7 +20,7 @@ namespace Server.Controllers
 
 
         [HttpGet("{userId}/items")]
-        public async Task<ActionResult<IEnumerable<Item>>> GetItemsForUser(int userId)
+        public async Task<ActionResult<IEnumerable<ItemDto>>> GetItemsForUser(int userId)
         {
             var user = await _context.Users
                 .Include(u => u.Items)

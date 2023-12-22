@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Item } from 'src/app/models/Item';
 import { AccountService } from 'src/app/services/account.service';
 import { UsersService } from 'src/app/services/users.service';
@@ -26,10 +26,9 @@ export class EditItemComponent {
   ngOnInit(): void {
     this.itemId = this.activatedRoute.snapshot.params['itemId'];
     this.userId = this.accountService.getUserId();
-  
     this.usersService.getItemfromUser(this.userId, this.itemId).subscribe({
       next: (response) => {
-        this.item = response; // Assegna i valori dell'oggetto item qui
+        this.item = response; 
         this.name = this.item.name;
         this.price = this.item.price;
         this.quantity = this.item.quantity;
@@ -39,12 +38,13 @@ export class EditItemComponent {
       }  
     });
   }
+
+
   onSubmit(productForm: NgForm){
     const userId = this.accountService.getUserId();
     productForm.control.markAllAsTouched();
     if (productForm.valid) {
       const item: Item = productForm.value;
-      
       this.usersService.editItemForUser(userId,this.itemId,item).subscribe({
         next: () => {
           this.router.navigateByUrl("/items");
