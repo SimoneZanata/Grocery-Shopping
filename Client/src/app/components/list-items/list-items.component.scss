@@ -6,13 +6,17 @@
     background-color: #fff;
 }
 
-.table th, .table td {
+
+.table th,
+.table td {
     padding: 1.5%;
     text-align: center;
 }
 
-.add-button, .edit-button, .delete-button {
-    padding: 8px;
+.add-button,
+.edit-button,
+.delete-button {
+    padding: 7px;
     margin-right: 1%;
     cursor: pointer;
     border: none;
@@ -21,7 +25,11 @@
 }
 
 .add-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: #3498db;
+    margin: auto;
 }
 
 .edit-button {
@@ -32,22 +40,20 @@
     background-color: #dc3545;
 }
 
-p {
-    margin: 1% 0;
-    color: #555;
-}
-
 @media screen and (max-width: 600px) {
     .card {
         margin: 2%;
         padding: 2%;
     }
 
-    .table th, .table td {
+    .table th,
+    .table td {
         padding: 1%;
     }
 
-    .add-button, .edit-button, .delete-button {
+    .add-button,
+    .edit-button,
+    .delete-button {
         padding: 0.5% 1%;
     }
 }

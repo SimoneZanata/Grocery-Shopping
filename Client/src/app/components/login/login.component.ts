@@ -9,7 +9,8 @@ import { AccountService } from 'src/app/services/account.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  constructor(private authService: AccountService, private router: Router) {}
+  model: any = {};
+  constructor(private authService: AccountService, private router: Router) { }
 
   ngOnInit(): void {
     if (this.authService.isAuthenticated()) {
@@ -24,10 +25,11 @@ export class LoginComponent {
         next: (response) => {
           localStorage.setItem("user", JSON.stringify(response));
           console.log(localStorage.getItem("user"));
-          this.router.navigateByUrl("/welcome");   
+          this.router.navigateByUrl("/welcome");
         },
         error: () => alert("Login Errato"),
       });
     }
   }
+
 }

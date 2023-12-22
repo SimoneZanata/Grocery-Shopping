@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '../models/User';
 import { LoginUser } from '../models/LoginUser';
 import { RegisterUser } from '../models/RegisterUser';
 
@@ -10,14 +9,13 @@ import { RegisterUser } from '../models/RegisterUser';
 export class AccountService {
 
   accountUrl = 'https://localhost:5001/account';
-
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   login(loginData: LoginUser) {
     return this.http.post<LoginUser>(`${this.accountUrl}/login`, loginData);
   }
 
-  register(registerData: RegisterUser){
+  register(registerData: RegisterUser) {
     return this.http.post(`${this.accountUrl}/register`, registerData);
   }
 
@@ -29,17 +27,12 @@ export class AccountService {
     return !!localStorage.getItem("user");
   }
 
-  getCurrentUser() {
-    const user = JSON.parse(localStorage.getItem("user") || '') as User;
-    return user;
-  }
-
-  getUserId(): number{
+  getUserId(): number {
     const userString = localStorage.getItem("user");
     if (!userString) {
       return 0;
     }
-    const user = JSON.parse(userString); 
+    const user = JSON.parse(userString);
     return user.id;
   }
 }

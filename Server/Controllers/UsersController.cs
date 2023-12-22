@@ -1,12 +1,13 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 using Server.Data;
 using Server.DTOs;
 using Server.Entities;
 
 namespace Server.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
 
@@ -50,7 +51,7 @@ namespace Server.Controllers
 
         }
 
-        [HttpGet("{userId}/items/{itemId}")] 
+        [HttpGet("{userId}/items/{itemId}")]
         public async Task<ActionResult<ItemDto>> GetItemForUser(int userId, int itemId)
         {
             var user = await _context.Users
@@ -101,7 +102,7 @@ namespace Server.Controllers
                 Quantity = addItem.Quantity,
                 Price = addItem.Price,
                 Purchased = false
-    
+
             };
 
             user.Items.Add(newItem);
@@ -128,13 +129,11 @@ namespace Server.Controllers
                 return NotFound("Item not found");
             }
 
-            // Update item properties
             itemToUpdate.Name = updatedItem.Name;
             itemToUpdate.Quantity = updatedItem.Quantity;
             itemToUpdate.Price = updatedItem.Price;
             itemToUpdate.Purchased = updatedItem.Purchased;
 
-            // Save changes to the database
             await _context.SaveChangesAsync();
 
             return Ok();
@@ -158,9 +157,7 @@ namespace Server.Controllers
                 return NotFound("Item not found");
             }
 
-            // Rimuovi l'elemento dalla lista dell'utente
             user.Items.Remove(itemToDelete);
-            // Salva le modifiche nel database
             await _context.SaveChangesAsync();
 
             return Ok();
