@@ -36,8 +36,18 @@
     background-color: #3498db;
 }
 
+.edit-button[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
 .delete-button {
     background-color: #dc3545;
+}
+
+.purchased {
+    color: #ccc;
+    font-weight: bold;
 }
 
 @media screen and (max-width: 600px) {

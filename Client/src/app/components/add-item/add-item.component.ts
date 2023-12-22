@@ -15,18 +15,17 @@ export class AddItemComponent {
   quantity!: number;
   price!: number;
   constructor(private usersService: UsersService, private router: Router,
-    private accountService : AccountService) {}
+    private accountService: AccountService) { }
 
   ngOnInit(): void {
   }
 
-  onSubmit(productForm: NgForm){
+  onSubmit(productForm: NgForm) {
     const userId = this.accountService.getUserId();
     productForm.control.markAllAsTouched();
     if (productForm.valid) {
       const item: Item = productForm.value;
-      
-      this.usersService.addItemForUser(userId,item).subscribe({
+      this.usersService.addItemForUser(userId, item).subscribe({
         next: () => {
           this.router.navigateByUrl("/items");
           setTimeout(() => {
@@ -38,10 +37,11 @@ export class AddItemComponent {
           setTimeout(() => {
             alert('Errore durante la registrazione');
           }, 200);
-        }  
+        }
       });
     }
   }
-  }
-  
+
+}
+
 

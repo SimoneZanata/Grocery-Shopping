@@ -12,7 +12,7 @@ export class UsersService {
   items: Item[] = [];
 
   constructor(private http: HttpClient) { }
-  getItemfromUser(userId: number,itemId: number) {
+  getItemfromUser(userId: number, itemId: number) {
     return this.http.get<Item>(`${this.usersUrl}/${userId}/items/${itemId}`);
   }
 
@@ -20,17 +20,17 @@ export class UsersService {
     return this.http.get<Item[]>(`${this.usersUrl}/${userId}/items`);
   }
 
-  addItemForUser(userId: number,item :Item) {
-    return this.http.post(`${this.usersUrl}/${userId}/items/`,item);
+  addItemForUser(userId: number, item: Item) {
+    return this.http.post(`${this.usersUrl}/${userId}/items/`, item);
   }
 
-  editItemForUser(userId: number,itemId: number,item :Item) {
-    return this.http.put(`${this.usersUrl}/${userId}/items/${itemId}`,item);
+  editItemForUser(userId: number, itemId: number, item: Item) {
+    return this.http.put(`${this.usersUrl}/${userId}/items/${itemId}`, item);
   }
 
-  deleteItemfromUser(userId: number,itemId: number) {
+  deleteItemfromUser(userId: number, itemId: number) {
     return this.http.delete(`${this.usersUrl}/${userId}/items/${itemId}`);
   }
 
-  
+
 }

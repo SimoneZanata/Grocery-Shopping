@@ -11,18 +11,18 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class ListItemsComponent {
   isEditMode: boolean = false;
-    item  : Item ={} as Item;
-    items : Item[] =[];
-    userId : number= 0;
+  item: Item = {} as Item;
+  items: Item[] = [];
+  userId: number = 0;
 
-  constructor(private userService: UsersService,private accountService: AccountService
-    ,private router: Router){}
+  constructor(private userService: UsersService, private accountService: AccountService
+    , private router: Router) { }
 
   ngOnInit(): void {
     this.getItems();
   }
 
-  getItems(){
+  getItems() {
     this.userId = this.accountService.getUserId();
     this.userService.getItemsfromUser(this.userId).subscribe({
       next: (response) => {
@@ -34,14 +34,28 @@ export class ListItemsComponent {
     });
   }
 
- 
-    onEdit(itemId: number) {
-      this.router.navigateByUrl(`/edit/${itemId}`);
-      }
-    
+  onEdit(itemId: number) {
+    this.router.navigateByUrl(`/edit/${itemId}`);
+  }
 
-    onDelete(itemId: number) {
-      this.userService.deleteItemfromUser(this.userId,itemId).subscribe
+  onCheckboxChange(item :Item) {
+    this.item.purchased = !this.item.purchased;
+    if (this.item.purchased) {
+      this.userService.editItemForUser(this.userId,item.id,this.item).subscribe({
+        next: (response) => {
+          response=item;
+          console.log(item);
+        },
+        error: (error) => {
+          console.error(error);
+        }
+      });
+    }
+  }
+
+
+  onDelete(itemId: number) {
+    this.userService.deleteItemfromUser(this.userId, itemId).subscribe
       ({
         next: () => {
           console.log("item deleted");
@@ -51,13 +65,13 @@ export class ListItemsComponent {
           console.error(error);
         }
       });
-    }
-
-    addItem() {
-      this.router.navigateByUrl(`add`);
-    }
-    
   }
+
+  addItem() {
+    this.router.navigateByUrl(`add`);
+  }
+
+}
 
 
 

@@ -10,7 +10,7 @@ import { AccountService } from 'src/app/services/account.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
-  constructor(private authService: AccountService, private router: Router) {}
+  constructor(private authService: AccountService, private router: Router) { }
 
   ngOnInit(): void {
     if (this.authService.isAuthenticated()) {
@@ -34,7 +34,7 @@ export class RegisterComponent {
           setTimeout(() => {
             alert('Errore durante la registrazione');
           }, 200);
-        }  
+        }
       });
     }
   }

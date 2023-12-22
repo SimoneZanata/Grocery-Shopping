@@ -17,8 +17,8 @@ const routes: Routes = [
     children: [
       { path: "items", component: ListItemsComponent },
       { path: "edit/:itemId", component: EditItemComponent },
-      { path: "add", component: AddItemComponent},
-      { path: "logout", component: LogoutComponent},
+      { path: "add", component: AddItemComponent },
+      { path: "logout", component: LogoutComponent },
       { path: "", redirectTo: "items", pathMatch: 'full' },
     ],
   },
@@ -37,4 +37,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
