@@ -8,13 +8,23 @@ import { LoginComponent } from './components/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RegisterComponent } from './components/register/register.component';
 import { ListItemsComponent } from './components/list-items/list-items.component';
+import { AddItemComponent } from './components/add-item/add-item.component';
+import { EditItemComponent } from './components/edit-item/edit-item.component';
+import { MainPageComponent } from './components/main-page/main-page.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { LogoutComponent } from './components/logout/logout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    ListItemsComponent
+    ListItemsComponent,
+    AddItemComponent,
+    EditItemComponent,
+    MainPageComponent,
+    NavbarComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,

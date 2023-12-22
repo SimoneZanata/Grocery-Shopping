@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-sm navbar-dark" style="margin-bottom: 20px; background-color: #3498db;">
+    <div class="container">
+        <a class="navbar-brand">E-COMMERCE</a>
+        <div class="navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" *ngIf="!this.accountService.isAuthenticated()">
+                    <a class="nav-link" routerLink="/register" routerLinkActive="active">Register</a>
+                </li>
+                <li class="nav-item" *ngIf="!this.accountService.isAuthenticated()">
+                    <a class="nav-link" routerLink="/login" routerLinkActive="active">Login</a>
+                </li>
+                <li class="nav-item" *ngIf="this.accountService.isAuthenticated()">
+                    <a class="nav-link" routerLink="items" routerLinkActive="active">ListaProdotti</a>
+                </li>
+                <li class="nav-item" *ngIf="this.accountService.isAuthenticated()">
+                    <a class="nav-link" routerLink="/logout" routerLinkActive="active">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

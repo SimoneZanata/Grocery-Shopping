@@ -50,38 +50,62 @@ namespace Server.Controllers
 
         }
 
-        [HttpPost("{userId}/items/")]
-        public async Task<ActionResult<UserDto>> AddItemToUser(int userId, Item addItem)
+        [HttpGet("{userId}/items/{itemId}")] 
+        public async Task<ActionResult<ItemDto>> GetItemForUser(int userId, int itemId)
         {
-            // Verifica se l'utente esiste
+            var user = await _context.Users
+                .Include(u => u.Items)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var item = user.Items.FirstOrDefault(i => i.Id == itemId);
+
+            if (item == null)
+            {
+                return NotFound("Item not found");
+            }
+
+            var itemDto = new ItemDto
+            {
+                Id = item.Id,
+                Name = item.Name,
+                Quantity = item.Quantity,
+                Price = item.Price,
+                Purchased = item.Purchased
+            };
+
+            return Ok(itemDto);
+        }
+
+        [HttpPost("{userId}/items/")]
+        public async Task<ActionResult> AddItemToUser(int userId, ItemDto addItem)
+        {
             var user = await _context.Users.FindAsync(userId);
             if (user == null)
             {
                 return NotFound("User not found");
             }
 
-            // Check if an item with the same name already exists in the user's list
             if (user.Items.Any(item => item.Name == addItem.Name))
             {
                 return BadRequest("Item with the same name already exists for the user");
             }
 
-            // Crea il nuovo elemento
             var newItem = new Item
             {
                 Name = addItem.Name,
                 Quantity = addItem.Quantity,
                 Price = addItem.Price,
-                Purchased = false,
-                UserId = user.Id
+                Purchased = false
+    
             };
 
-            // Aggiungi l'elemento alla lista dell'utente
             user.Items.Add(newItem);
-
-            // Salva le modifiche nel database
             await _context.SaveChangesAsync();
-
             return Ok();
         }
 

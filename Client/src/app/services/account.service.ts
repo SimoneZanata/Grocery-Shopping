@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { User } from '../models/User';
 import { LoginUser } from '../models/LoginUser';
 import { RegisterUser } from '../models/RegisterUser';
@@ -33,5 +32,14 @@ export class AccountService {
   getCurrentUser() {
     const user = JSON.parse(localStorage.getItem("user") || '') as User;
     return user;
+  }
+
+  getUserId(): number{
+    const userString = localStorage.getItem("user");
+    if (!userString) {
+      return 0;
+    }
+    const user = JSON.parse(userString); 
+    return user.id;
   }
 }
