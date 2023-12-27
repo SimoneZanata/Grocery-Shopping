@@ -5,7 +5,7 @@ using Server.Interfaces;
 
 namespace Server.Controllers
 {
-    // [Authorize]
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class UsersController : ControllerBase
