@@ -1,140 +1,93 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Server.Data;
 using Server.DTOs;
-using Server.Entities;
+using Server.Interfaces;
 
 namespace Server.Controllers
 {
-    [Authorize]
+    // [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly DataContext _context;
-        public UsersController(DataContext context)
-        {
-            _context = context;
-        }
+        private readonly IItemRepository _itemRepository;
+
+    public UsersController(IItemRepository itemRepository)
+    {
+        _itemRepository = itemRepository;
+    }
 
 
         [HttpGet("{userId}/items")]
-        public async Task<ActionResult<IEnumerable<ItemDto>>> GetItemsForUser(int userId)
+        public async Task<ActionResult<IEnumerable<ItemDto>>> GetItems(int userId)
         {
-            var user = await _context.Users
-                .Include(u => u.Items)
-                .FirstOrDefaultAsync(u => u.Id == userId);
-            if (user == null)
-            {
-                return NotFound("User not found");
-            }
-            var itemDtos = user.Items.Select(item => new ItemDto
-            {
-                Id = item.Id,
-                Name = item.Name,
-                Quantity = item.Quantity,
-                Price = item.Price,
-                Purchased = item.Purchased
-            });
-            return Ok(itemDtos);
+            var items =await _itemRepository.GetItemsDtoAsync(userId);
+            return Ok(items);
         }
 
         [HttpGet("{userId}/items/{itemId}")]
-        public async Task<ActionResult<ItemDto>> GetItemForUser(int userId, int itemId)
+        public async Task<ActionResult<ItemDto>> GetItemById(int userId, int itemId)
         {
-            var user = await _context.Users
-                .Include(u => u.Items)
-                .FirstOrDefaultAsync(u => u.Id == userId);
-            if (user == null)
-            {
-                return NotFound("User not found");
-            }
-            var item = user.Items.FirstOrDefault(i => i.Id == itemId);
+            var item = await _itemRepository.GetItemDtoAsync(itemId,userId);
             if (item == null)
             {
                 return NotFound("Item not found");
             }
-            var itemDto = new ItemDto
-            {
-                Id = item.Id,
-                Name = item.Name,
-                Quantity = item.Quantity,
-                Price = item.Price,
-                Purchased = item.Purchased
-            };
-            return Ok(itemDto);
+            return Ok(item);
         }
 
 
-        [HttpPost("{userId}/items/")]
-        public async Task<ActionResult> AddItemToUser(int userId, ItemDto addItem)
+        [HttpPost("{userId}/items")]
+        public async Task<ActionResult> AddItem(int userId, ItemDto item)
+
         {
-            var user = await _context.Users.FindAsync(userId);
-            if (user == null)
-            {
-                return NotFound("User not found");
-            }
-            if (user.Items.Any(item => item.Name == addItem.Name))
+            var itemToCheck =await _itemRepository.FindItemByUserIdAndNameAsync(userId,item.Name);
+
+            if (itemToCheck)
             {
                 return BadRequest("Item with the same name already exists for the user");
             }
-            var newItem = new Item
-            {
-                Name = addItem.Name,
-                Quantity = addItem.Quantity,
-                Price = addItem.Price,
-                Purchased = false
-            };
-            user.Items.Add(newItem);
-            await _context.SaveChangesAsync();
-            return Ok();
+
+            _itemRepository.AddItem(item,userId);
+            await _itemRepository.SaveAllAsync();
+            return NoContent();
         }
 
 
         [HttpPut("{userId}/items/{itemId}")]
-        public async Task<ActionResult> UpdateItemForUser(int userId, int itemId, Item updatedItem)
+        public async Task<ActionResult> UpdateItem(int userId, int itemId, ItemDto item)
         {
-            var user = await _context.Users
-                .Include(u => u.Items)
-                .FirstOrDefaultAsync(u => u.Id == userId);
-            if (user == null)
-            {
-                return NotFound("User not found");
-            }
-            var itemToUpdate = user.Items.FirstOrDefault(i => i.Id == itemId);
+
+            var itemToUpdate = await _itemRepository.GetItemAsync(itemId,userId);
+
             if (itemToUpdate == null)
             {
-                return NotFound("Item not found");
+                return NotFound("item not found");
             }
-            itemToUpdate.Name = updatedItem.Name;
-            itemToUpdate.Quantity = updatedItem.Quantity;
-            itemToUpdate.Price = updatedItem.Price;
-            itemToUpdate.Purchased = updatedItem.Purchased;
-            await _context.SaveChangesAsync();
-            return Ok();
+
+            _itemRepository.UpdateItem(itemToUpdate,item);
+            await _itemRepository.SaveAllAsync();
+            return NoContent();
         }
+
 
 
         [HttpDelete("{userId}/items/{itemId}")]
-        public async Task<ActionResult> DeleteItemFromUser(int userId, int itemId)
+        public async Task<ActionResult> DeleteItem(int userId, int itemId)
         {
-            var user = await _context.Users.
-            Include(u => u.Items).
-            FirstOrDefaultAsync(u => u.Id == userId);
-            if (user == null)
-            {
-                return NotFound("User not found");
-            }
-            var itemToDelete = user.Items.FirstOrDefault(i => i.Id == itemId);
+
+            var itemToDelete = await _itemRepository.GetItemAsync(itemId,userId);
             if (itemToDelete == null)
             {
-                return NotFound("Item not found");
+                return BadRequest("Item not found");
             }
-            user.Items.Remove(itemToDelete);
-            await _context.SaveChangesAsync();
-            return Ok();
+
+           _itemRepository.DeleteItem(itemToDelete);
+           await _itemRepository.SaveAllAsync();
+
+            return NoContent();
         }
+
     }
 }
 

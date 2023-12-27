@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '../models/User';
 import { Item } from '../models/Item';
 
 @Injectable({
@@ -9,7 +8,6 @@ import { Item } from '../models/Item';
 export class UsersService {
 
   usersUrl = 'https://localhost:5001/users';
-  items: Item[] = [];
 
   constructor(private http: HttpClient) { }
   getItemfromUser(userId: number, itemId: number) {

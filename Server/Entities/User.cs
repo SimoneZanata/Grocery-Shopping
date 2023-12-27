@@ -7,5 +7,6 @@ namespace Server.Entities
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
         public HashSet<Item> Items { get; set; } = new HashSet<Item>();
+     
     }
 }

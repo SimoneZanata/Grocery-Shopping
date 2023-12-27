@@ -50,8 +50,14 @@ button {
   display: block;
 }
 
-.add-button[disabled] {
+input:focus {
+  outline: none;
+  border-color: #3498db; 
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
 
+
+.add-button[disabled] {
   background-color: #ccc;
   cursor: not-allowed;
 }

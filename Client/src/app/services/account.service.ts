@@ -9,7 +9,7 @@ import { RegisterUser } from '../models/RegisterUser';
 export class AccountService {
 
   accountUrl = 'https://localhost:5001/account';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   login(loginData: LoginUser) {
     return this.http.post<LoginUser>(`${this.accountUrl}/login`, loginData);

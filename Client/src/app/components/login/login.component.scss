@@ -18,6 +18,17 @@
   width: 50%;
 }
 
+.form-control:focus {
+  outline: none;
+  border-color: #3498db; 
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+
+.btn[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
 @media only screen and (max-width: 768px){
 
 .login-card {

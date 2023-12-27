@@ -17,7 +17,7 @@
                 <input type="number" id="price" name="price" [(ngModel)]="price" required [min]="1">
             </div>
             <button class="add-button" type="submit"
-                [disabled]="!productForm.valid || !productForm.dirty">Modifica</button>
+            [disabled]="!productForm.valid || !productForm.dirty || noChanges()">Modifica</button>
         </form>
     </div>
 </div>

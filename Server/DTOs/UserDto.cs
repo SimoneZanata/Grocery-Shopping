@@ -5,5 +5,14 @@ namespace Server.DTOs
         public int Id { get; set; }
         public string Username { get; set; }
         public string Token { get; set; }
+
+        public UserDto(int id, string username, string token)
+        {
+           Id=id;
+           Username=username;
+           Token = token; 
+        }
     }
+
+
 }

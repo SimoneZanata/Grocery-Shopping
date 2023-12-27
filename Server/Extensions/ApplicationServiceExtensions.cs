@@ -15,6 +15,8 @@ namespace Server.Extensions
                 opt.UseMySql(config.GetConnectionString("DefaultConnection"),new MySqlServerVersion(new Version(8, 0, 33)));
             });
             services.AddCors();
+            services.AddScoped<IItemRepository, ItemRepository>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ITokenService, TokenService>();
             return services;
         }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormGroup, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Item } from 'src/app/models/Item';
 import { AccountService } from 'src/app/services/account.service';
@@ -18,6 +18,7 @@ export class EditItemComponent {
   itemId : number =0;
   item :Item = {} as Item;
   userId: number =0;
+
   
   constructor(private accountService: AccountService, private router: Router,
      private usersService: UsersService,private activatedRoute: ActivatedRoute) {
@@ -39,6 +40,11 @@ export class EditItemComponent {
     });
   }
 
+  noChanges(): boolean {
+    return this.name === this.item.name &&
+           this.quantity === this.item.quantity &&
+           this.price === this.item.price;
+  }
 
   onSubmit(productForm: NgForm){
     const userId = this.accountService.getUserId();

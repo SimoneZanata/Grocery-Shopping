@@ -12,7 +12,8 @@ import { Router, NavigationExtras } from '@angular/router';
 @Injectable()
 export class ErrorsInterceptor implements HttpInterceptor {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
+
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
@@ -31,8 +32,7 @@ export class ErrorsInterceptor implements HttpInterceptor {
               }, 200);
               break;
             case 500:
-              const navigationExtras: NavigationExtras = {state: {error: error.error}};
-              this.router.navigateByUrl('/', navigationExtras);
+              console.error('Errore durante la navigazione:', error.error);
               break;
           }
         }

@@ -53,6 +53,7 @@
             <button
               type="submit"
               class="form-control btn rounded submit px-3 mt-2" 
+              [disabled]="!f.valid || !f.dirty"
             >
               Login
             </button>
