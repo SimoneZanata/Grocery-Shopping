@@ -98,6 +98,9 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "./node_modules/bootswatch/dist/spacelab/bootstrap.css",
+              "./node_modules/bootstrap/dist/bootstrap.min.css",
               "src/styles.scss"
             ],
             "scripts": []

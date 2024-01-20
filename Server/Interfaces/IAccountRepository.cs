@@ -10,9 +10,7 @@ namespace Server.Interfaces
     public interface IAccountRepository
     {
     Task<bool> UserExists(string username); 
-
     Task<User> GetUserByUsernameAsync(string username);
-
     Task<bool> SaveAllAsync();
     void AddUser(RegisterDto registerDto);
     bool ValidatePassword(string password, byte[] salt, byte[] hash);
