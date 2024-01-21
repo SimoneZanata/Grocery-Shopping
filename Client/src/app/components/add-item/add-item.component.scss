@@ -1,20 +1,12 @@
-.card {
-  width: 500px;
-  margin: 20px auto;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
 .card-header {
+  margin: auto;
+  width: 600px;
   text-align: center;
-  background-image: linear-gradient(#7191b3, #446e9b 50%, #3f658f);
   filter: none;
-  border: 1px solid #36587c;
+  border-radius: 5px;
   color: #fff;
   padding: 10px;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  box-shadow: white;
 }
 
 .card-body {
@@ -27,7 +19,6 @@
 
 label {
   display: block;
-  font-weight: bold;
   margin-bottom: 5px;
 }
 
@@ -50,10 +41,9 @@ input:focus {
 button {
   background-image: linear-gradient(#7191b3, #446e9b 50%, #3f658f);
   filter: none;
-  border: 1px solid #36587c;
   color: #fff;
   padding: 10px 20px;
-  border: none;
+  border: transparent;
   border-radius: 4px;
   cursor: pointer;
   overflow: hidden;

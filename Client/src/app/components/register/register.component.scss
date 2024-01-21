@@ -8,6 +8,10 @@
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
   }
 
+  .form-control::placeholder{
+    opacity: 0.5;
+  }
+
   .btn{
     background-image: linear-gradient(#7191b3, #446e9b 50%, #3f658f);
     filter: none;
